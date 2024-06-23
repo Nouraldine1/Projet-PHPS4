@@ -1,11 +1,13 @@
 <?php  
 require_once("../model/article.model.php");
 require_once("../model/categorie.model.php");
-require_once("../model/Type.model.php");
-class TypeController{
+require_once("../model/type.model.php");
+require_once("../core/Controller.php");
+class TypeController extends controller{
     private TypeModel $typeModel;
 
     public function __construct() {
+        parent::__construct();
         $this->typeModel = new TypeModel();
         $this->load();
     }
@@ -26,10 +28,9 @@ public function load()
 
 public function listertype(): void
 {
-    require_once("../model/type.model.php");
-    $types =$this->typeModel->findAll() ;
-    // var_dump($types);
-    require_once("../views/type/lister.html.php");
+    $this->renderView("type/lister", [
+        'types' => $this->typeModel->findAll() 
+    ], );;  
 
 }
 

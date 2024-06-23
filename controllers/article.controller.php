@@ -2,12 +2,16 @@
 require_once("../model/article.model.php");
 require_once("../model/categorie.model.php");
 require_once("../model/Type.model.php");
-class ArticleController {
+require_once("../core/controller.php");
+class ArticleController extends Controller{
     private ArticleModel $articleModel;
     private CategorieModel $categorieModel;
     private TypeModel $typeModel;
 
+   
+
     public function __construct() {
+        parent::__construct();
         $this->articleModel = new ArticleModel();
         $this->categorieModel = new CategorieModel();
         $this->typeModel = new TypeModel();
@@ -26,27 +30,26 @@ public function load() {
         }elseif ($_REQUEST['action'] == "Fermer-form") {
             $this->listerArticle();
         }
-    } else {
+    } else { 
         $this->listerArticle();
-    }
+    } 
 }
 
 public function listerArticle(): void
 {
-    /* Au prealable, avant de charger la vue, il faudra faire appel au model 
-        pour chercher les donnees de la table article. */
-    // require_once("../model/article.model.php");
-    $articles = $this->articleModel->findAll();
-    // Chargement de la vue     
-    //var_dump($articles);
-    require_once("../views/Articles/lister.html.php");
+   
+   $this->renderView("articles/lister", [
+       'articles' => $this->articleModel->findAll(),
+   ],   );; 
+  
 
 }
 public function chargerFormulaire(): void
 {
-    $types = $this->typeModel->findAll();
-    $categories =  $this->categorieModel->findAll();
-    require_once("../views/Articles/form.html.php");
+        $this->renderView("articles/form", [
+            'categories' =>$this->categorieModel->findAll(),
+            ' $types'=> $types = $this->typeModel->findAll()
+        ], );;  
 }
 
 

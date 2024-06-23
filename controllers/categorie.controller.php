@@ -2,10 +2,12 @@
 require_once("../model/article.model.php");
 require_once("../model/categorie.model.php");
 require_once("../model/Type.model.php");
-class CategorieController{
+require_once("../core/controller.php");
+class CategorieController extends Controller{
     private CategorieModel $categorieModel;
 
     public function __construct() {
+        parent::__construct();
         $this->articleModel = new ArticleModel();
         $this->categorieModel = new CategorieModel();
         $this->typeModel = new TypeModel();
@@ -25,12 +27,10 @@ if (isset($_REQUEST['action'])) {
 }
 }
 
-public function listerCategorie(): void
-{
-    require_once("../model/categorie.model.php");
-    $categories =  $this->categorieModel->findAll();
-    require_once("../views/categorie/lister.html.php");
-
+public function listerCategorie(): void {
+    $this->renderView("categorie/lister", [
+        'categories' => $this->categorieModel->findAll() // Utilisez 'categories' comme clé
+    ]);
 }
 
 public function ajouterCategorie(): void {

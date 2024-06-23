@@ -2,7 +2,7 @@
 
 class Router {
 
-    public function Run ()
+    public static function run ()
     {
         if (isset($_REQUEST['controller'])) {
             if ($_REQUEST['controller'] == "article") {

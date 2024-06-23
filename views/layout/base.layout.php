@@ -1,6 +1,3 @@
-<?php
-define("WEBROOT", "http://localhost:8080/");
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,7 +55,9 @@ define("WEBROOT", "http://localhost:8080/");
     </nav>
 
     <div class="flex-1 p-5">
-
+       <?php  
+            echo $contentView; 
+         ?>
     </div>
 
     <!-- Tailwind JS for interactivity -->
