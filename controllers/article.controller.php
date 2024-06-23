@@ -1,9 +1,10 @@
 <?php
-
 require_once("../model/article.model.php");
 
 if (isset($_REQUEST['action'])) {
     if ($_REQUEST['action'] == "lister-article") {
+        unset($_REQUEST['action']);
+        unset($_REQUEST['controller']);
         listerArticle();
     } elseif ($_REQUEST['action'] == "form-article") {
         chargerFormulaire();

@@ -4,7 +4,5 @@ document.getElementById("toggleSidebar").addEventListener("click", function() {
     if (sidebar) {
         // Masque ou affiche la barre latérale en changeant la propriété CSS display
         sidebar.classList.toggle("d-none");
-    } else {
-        console.error("La barre latérale n'a pas été trouvée.");
-    }
+    } 
 });
