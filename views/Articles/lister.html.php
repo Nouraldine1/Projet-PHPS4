@@ -18,13 +18,13 @@
                     placeholder="Rechercher un client">
             </div>
             <div class="w-full md:w-1/4 p-2 flex items-end">
-                <button class="btn bg-blue-500 text-white px-3 py-2 rounded">Rechercher</button>
+                <button class="btn bg-purple-600 text-white px-3 py-2 rounded">Rechercher</button>
             </div>
         </div>
 
         <div class="flex justify-between items-center mb-3">
             <h2 class="text-2xl font-bold">Liste des Articles</h2>
-            <button class="btn bg-green-500 text-white px-3 py-2 rounded"><a
+            <button class="btn bg-purple-600 text-white px-3 py-2 rounded"><a
                     href="<?= WEBROOT ?>?controller=article&action=form-article">Nouveau</a></button>
         </div>
 

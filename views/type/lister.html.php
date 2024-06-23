@@ -10,7 +10,7 @@
             <input type="hidden" name="controller" value="type">
             <input type="hidden" name="action" value="add-type">
             <input type="text" name="new-type" placeholder="Nom du type" class="border px-4 py-2 w-full h-12 rounded-l-md" required>
-            <button type="submit" class="btn bg-blue-500 text-white px-3 py-2 rounded-r-md">Ajouter</button>
+            <button type="submit" class="btn bg-purple-600 text-white px-3 py-2 rounded-r-md">Ajouter</button>
         </form>
     </div>
 

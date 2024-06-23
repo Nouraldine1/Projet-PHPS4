@@ -83,20 +83,7 @@ if (isset($_REQUEST['controller'])) {
 
     <!-- Tailwind JS for interactivity -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.5.2/dist/cdn.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var toggleButton = document.getElementById("toggleSidebar");
-            var sidebar = document.querySelector(".sidebar");
 
-            if (toggleButton && sidebar) {
-                toggleButton.addEventListener("click", function () {
-                    sidebar.classList.toggle("hidden");
-                });
-            } else {
-                console.error("Le bouton ou la barre latérale n'a pas été trouvée.");
-            }
-        });
-    </script>
 </body>
 
 </html>
