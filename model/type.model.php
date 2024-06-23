@@ -1,5 +1,7 @@
 <?php 
-function findAllTypes(): array{
+
+class TypeModel{
+public function findAll(): array{
     // Database connection details
     $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
     $username = 'root';
@@ -21,7 +23,7 @@ function findAllTypes(): array{
 }
 
 
-function inserttype(string $nomtype): bool {
+public function save(string $nomtype): bool {
     $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
     $username = 'root';
     $password = '';
@@ -39,7 +41,7 @@ function inserttype(string $nomtype): bool {
 }
 
 
-function typeExiste(string $nomtype): bool {
+public function typeExiste(string $nomtype): bool {
     $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
     $username = 'root';
     $password = '';
@@ -57,5 +59,5 @@ function typeExiste(string $nomtype): bool {
     }
 }
 
-
+}
 ?>

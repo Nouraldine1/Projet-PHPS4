@@ -1,41 +1,47 @@
 <?php  
+require_once("../model/article.model.php");
+require_once("../model/categorie.model.php");
+require_once("../model/Type.model.php");
+class CategorieController{
+    private CategorieModel $categorieModel;
+
+    public function __construct() {
+        $this->articleModel = new ArticleModel();
+        $this->categorieModel = new CategorieModel();
+        $this->typeModel = new TypeModel();
+        $this->load();
+    }
+public function load() {
+
 if (isset($_REQUEST['action'])) {
     if ($_REQUEST['action'] == "lister-categorie") {
-        listerCategorie();
+       $this-> listerCategorie();
     } elseif ($_REQUEST['action'] == "add-categorie") {
-        ajouterCategorie();
-        listerCategorie();
+        $this-> ajouterCategorie();
+        $this-> listerCategorie();
     }
 } else {
-    listerCategorie();
+    $this-> listerCategorie();
+}
 }
 
-
-function listerCategorie(): void
+public function listerCategorie(): void
 {
-    /* Au prealable, avant de charger la vue, il faudra faire appel au model 
-        pour chercher les donnees de la table article. */
     require_once("../model/categorie.model.php");
-    $categories = findAllCategorie();
-    // Chargement de la vue     
-    //var_dump($articles);
+    $categories =  $this->categorieModel->findAll();
     require_once("../views/categorie/lister.html.php");
 
 }
 
+public function ajouterCategorie(): void {
+    if (isset($_POST['nomCategorie']) && !empty($_POST['nomCategorie'])) {
+        $nomCategorie = $_POST['nomCategorie'];
 
-// article.controller.php
-
-function ajouterCategorie(): void {
-    if (isset($_POST['new-categorie']) && !empty($_POST['new-categorie'])) {
-        require_once("../model/article.model.php");
-        $nomCategorie = $_POST['new-categorie'];
-
-        if (categorieExiste($nomCategorie)) {
+        if ($this->categorieModel->categorieExiste($nomCategorie)) {
             echo "La catégorie existe déjà.";
         } else {
-            if (insertCategorie($nomCategorie)) {
-                header("Location: " . WEBROOT . "?action=lister-categorie");
+            if ($this->categorieModel->save($nomCategorie)) {
+                header("Location: " . WEBROOT . "?controller=categorie&action=lister-categorie");
                 exit();
             } else {
                 echo "Erreur lors de l'ajout de la catégorie.";
@@ -44,6 +50,6 @@ function ajouterCategorie(): void {
     } else {
         echo "Le nom de la catégorie est obligatoire.";
     }
-}
+}}
 
 ?>

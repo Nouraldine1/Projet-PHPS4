@@ -25,7 +25,7 @@
         <div class="flex justify-between items-center mb-3">
             <h2 class="text-2xl font-bold">Liste des Articles</h2>
             <button class="btn bg-green-500 text-white px-3 py-2 rounded"><a
-                    href="<?= WEBROOT ?>?action=form-article">Nouveau</a></button>
+                    href="<?= WEBROOT ?>?controller=article&action=form-article">Nouveau</a></button>
         </div>
 
         <div class="overflow-x-auto">

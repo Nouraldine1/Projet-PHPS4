@@ -58,31 +58,26 @@ define("WEBROOT", "http://localhost:8080/");
     </nav>
 
     <div class="flex-1 p-5">
-        <?php
-        // $action = $_REQUEST['action'] ?? 'lister-article';
-        // if ($action == 'lister-article' || $action == 'form-article' || $action == 'add-article') {
-        //     require_once ("../controllers/article.controller.php");
-        // } elseif ($action == 'lister-categorie' || $action == 'form-categorie' || $action == 'add-categorie') {
-        //     require_once ("../controllers/categorie.controller.php");
-        // } elseif ($action == 'lister-type' || $action == 'form-type' || $action == 'add-type') {
-        //     require_once ("../controllers/type.controller.php");
-        // } else {
-        //     require_once ("../controllers/article.controller.php");
-        // }
-        // ?>
-
 <?php
-     if (isset($_REQUEST['controller'])) {
-        if ($_REQUEST['controller'] == "article"){
-            require_once ("../controllers/article.controller.php");
-        } elseif ($_REQUEST['controller'] == "categorie") {
-            require_once ("../controllers/categorie.controller.php");
-        } elseif ($_REQUEST['controller'] == "type") {
-            require_once ("../controllers/type.controller.php");
-        } else {
-            require_once ("../controllers/article.controller.php");
-        }
+if (isset($_REQUEST['controller'])) {
+    if ($_REQUEST['controller'] == "article") {
+        require_once ("../controllers/article.controller.php");
+        $controller = new ArticleController();
+    } elseif ($_REQUEST['controller'] == "categorie") {
+        require_once ("../controllers/categorie.controller.php");
+        $controller = new CategorieController();
+    } elseif ($_REQUEST['controller'] == "type") {
+        require_once ("../controllers/type.controller.php");
+        $controller = new TypeController();
+    } else {
+        require_once ("../controllers/article.controller.php");
+        $controller = new ArticleController();
     }
+} else {
+    require_once ("../controllers/article.controller.php");
+    $controller = new ArticleController();
+}
+
         ?>
     </div>
 

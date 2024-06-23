@@ -1,7 +1,11 @@
 <?php
 
 require_once("../model/categorie.model.php");
-function findAll(): array {
+
+class ArticleModel{
+
+
+public function findAll(): array {
 
     $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
     $username = 'root';
@@ -25,28 +29,9 @@ function findAll(): array {
     }
 }
 
-function findAllType(): array
-{
-    $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
-    $username = 'root';
-    $password = '';
 
-    try {
-        $dbh = new PDO($dsn, $username, $password);
-        $sql = "SELECT *
-                FROM Type
-                ";
-        $stm = $dbh->query($sql);
-        // fetch all rows into array, by default PDO::FETCH_BOTH is used
-        // $rows = $stm->fetchAll(PDO::FETCH_NUM);
-        return $stm->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        // Handle the error
-        echo 'Connection failed: ' . $e->getMessage();
-    }
-}
 
-function insertArticle(string $libelle, string $prix, int $qteStock, int $categorie_id, int $type_id): bool {
+public function save(string $libelle, string $prix, int $qteStock, int $categorie_id, int $type_id): bool {
     $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
     $username = 'root';
     $password = '';
@@ -68,7 +53,7 @@ function insertArticle(string $libelle, string $prix, int $qteStock, int $catego
     }
 }
 
-function articleExiste(string $libelle): bool {
+public function articleExiste(string $libelle): bool {
     $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
     $username = 'root';
     $password = '';
@@ -86,7 +71,7 @@ function articleExiste(string $libelle): bool {
         return false;
     }
 }
-
+}
 
 
 

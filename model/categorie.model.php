@@ -1,5 +1,7 @@
 <?php
-function findAllCategorie(): array{
+
+class  CategorieModel{
+public function findAll(): array{
     // Database connection details
     $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
     $username = 'root';
@@ -22,7 +24,7 @@ function findAllCategorie(): array{
 
 // article.model.php
 
-function insertCategorie(string $nomCategorie): bool {
+public function save(string $nomCategorie): bool {
     $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
     $username = 'root';
     $password = '';
@@ -40,7 +42,7 @@ function insertCategorie(string $nomCategorie): bool {
 }
 
 
-function categorieExiste(string $nomCategorie): bool {
+public function categorieExiste(string $nomCategorie): bool {
     $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
     $username = 'root';
     $password = '';
@@ -57,5 +59,5 @@ function categorieExiste(string $nomCategorie): bool {
         return false;
     }
 }
-
+}
 ?>
