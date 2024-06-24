@@ -5,6 +5,7 @@ require_once("../model/type.model.php");
 require_once("../core/Controller.php");
 class TypeController extends controller{
     private TypeModel $typeModel;
+    private  array    $datas ;
 
     public function __construct() {
         parent::__construct();
@@ -34,26 +35,40 @@ public function listertype(): void
 
 }
 
-
-// article.controller.php
-
 public function ajoutertype(): void {
-    if (isset($_POST['new-type']) && !empty($_POST['new-type'])) {
-        require_once("../model/type.model.php");
-        $nomtype = $_POST['new-type'];
+    Session::ouvrir();
+    $newType = $_POST['new-type'] ?? null;
+    var_dump($newType); // Vérifiez la valeur de newType
 
-        if ($this->typeModel->typeExiste($nomtype)) {
-            echo "La catégorie existe déjà.";
-        } else {
-            if ($this->typeModel->save($nomtype)) {
-                $this->rendirectToRoute("?controller=article&action=lister-article");
+    if ($newType !== null) {
+        Validator::isEmpty($newType, "new-Type", "Le champ est obligatoire");
+        if (Validator::isValide()) {
+            if ($this->typeModel->typeExiste($newType)) {
+                Session::add("errors", ["new-Type" => "Le type existe déjà."]);
             } else {
-                echo "Erreur lors de l'ajout de la catégorie.";
+                $result = $this->typeModel->save($newType);
+                if ($result) {
+                    header("Location: " . WEBROOT . "?controller=type&action=lister-type");
+                    exit();
+                } else {
+                    Session::add("errors", ["new-Type" => "Erreur lors de l'ajout du type."]);
+                }
             }
+        } else {
+            Session::add("errors", Validator::getErrors());
         }
     } else {
-        echo "Le nom de la catégorie est obligatoire.";
+        Session::add("errors", ["new-Type" => "Le champ est obligatoire"]);
     }
+
+    header("Location: " . WEBROOT . "?controller=type&action=lister-type");
+    exit();
 }
+
+
 }
+
+
+
+
 ?>

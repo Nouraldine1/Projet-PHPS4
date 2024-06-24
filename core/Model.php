@@ -31,7 +31,7 @@ class Model {
         }
     }
 
-    public function executeSelect(string $sql, array $params = []): array {
+    public function executeSelect(string $sql, array $params = []): array|bool {
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);

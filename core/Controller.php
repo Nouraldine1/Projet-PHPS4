@@ -2,6 +2,7 @@
 class Controller{
     protected string $layout;
     public function __construct(){
+        Session::ouvrir();
         $this->layout = "base";
     }
     public function renderView(string $view ,array $data){
