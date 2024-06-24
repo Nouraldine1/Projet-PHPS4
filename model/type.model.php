@@ -1,63 +1,26 @@
 <?php 
+require_once("../core/Model.php");
 
-class TypeModel{
-public function findAll(): array{
-    // Database connection details
-    $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
-    $username = 'root';
-    $password = '';
-
-    try {
-        $dbh = new PDO($dsn, $username, $password);
-        $sql = "SELECT *
-                FROM type
-                ";
-        $stm = $dbh->query($sql);
-        // fetch all rows into array, by default PDO::FETCH_BOTH is used
-        // $rows = $stm->fetchAll(PDO::FETCH_NUM);
-        return $stm->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        // Handle the error
-        echo 'Connection failed: ' . $e->getMessage();
+class TypeModel extends Model {
+    public function __construct() {
+        $this->ouvrirConnexion();
     }
-}
 
+    public function findAll(): array {
+        return $this->executeSelect("SELECT * FROM type");
+    }
 
-public function save(string $nomtype): bool {
-    $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
-    $username = 'root';
-    $password = '';
-
-    try {
-        $dbh = new PDO($dsn, $username, $password);
+    public function save(string $nomtype): bool {
         $sql = "INSERT INTO type (nomtype) VALUES (:nomtype)";
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindParam(':nomtype', $nomtype);
-        return $stmt->execute();
-    } catch (PDOException $e) {
-        echo 'Connection failed: ' . $e->getMessage();
-        return false;
+        $params = [':nomtype' => $nomtype];
+        return $this->executeUpdate($sql, $params);
     }
-}
 
-
-public function typeExiste(string $nomtype): bool {
-    $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
-    $username = 'root';
-    $password = '';
-
-    try {
-        $dbh = new PDO($dsn, $username, $password);
-        $sql = "SELECT COUNT(*) FROM type WHERE nomtype = :nomtype";
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindParam(':nomtype', $nomtype);
-        $stmt->execute();
-        return $stmt->fetchColumn() > 0;
-    } catch (PDOException $e) {
-        echo 'Connection failed: ' . $e->getMessage();
-        return false;
+    public function typeExiste(string $nomtype): bool {
+        $sql = "SELECT COUNT(*) as count FROM type WHERE nomtype = :nomtype";
+        $params = [':nomtype' => $nomtype];
+        $result = $this->executeSelect($sql, $params);
+        return $result[0]['count'] > 0;
     }
-}
-
 }
 ?>

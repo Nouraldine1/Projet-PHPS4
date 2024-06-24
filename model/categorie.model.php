@@ -1,63 +1,31 @@
 <?php
-
-class  CategorieModel{
-public function findAll(): array{
-    // Database connection details
-    $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
-    $username = 'root';
-    $password = '';
-
-    try {
-        $dbh = new PDO($dsn, $username, $password);
-        $sql = "SELECT *
-                FROM Categorie
-                ";
-        $stm = $dbh->query($sql);
-        // fetch all rows into array, by default PDO::FETCH_BOTH is used
-        // $rows = $stm->fetchAll(PDO::FETCH_NUM);
-        return $stm->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        // Handle the error
-        echo 'Connection failed: ' . $e->getMessage();
+require_once("../core/Model.php");
+class  CategorieModel extends Model{
+    public function __construct() {
+        $this->ouvrirConnexion();
     }
+
+
+public function findAll(): array
+{
+
+  return  $this->executeSelect("SELECT *
+                FROM Categorie
+                ");
 }
 
-// article.model.php
 
 public function save(string $nomCategorie): bool {
-    $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
-    $username = 'root';
-    $password = '';
-
-    try {
-        $dbh = new PDO($dsn, $username, $password);
-        $sql = "INSERT INTO Categorie (nomCategorie) VALUES (:nomCategorie)";
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindParam(':nomCategorie', $nomCategorie);
-        return $stmt->execute();
-    } catch (PDOException $e) {
-        echo 'Connection failed: ' . $e->getMessage();
-        return false;
-    }
+    $sql = "INSERT INTO `Categorie` (`nomCategorie`) VALUES (:nomCategorie)";
+    $params = [':nomCategorie' => $nomCategorie];
+    return $this->executeUpdate($sql, $params);
 }
 
-
 public function categorieExiste(string $nomCategorie): bool {
-    $dsn = 'mysql:host=127.0.0.1;port=3306;dbname=database';
-    $username = 'root';
-    $password = '';
-
-    try {
-        $dbh = new PDO($dsn, $username, $password);
-        $sql = "SELECT COUNT(*) FROM Categorie WHERE nomCategorie = :nomCategorie";
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindParam(':nomCategorie', $nomCategorie);
-        $stmt->execute();
-        return $stmt->fetchColumn() > 0;
-    } catch (PDOException $e) {
-        echo 'Connection failed: ' . $e->getMessage();
-        return false;
-    }
+    $sql = "SELECT COUNT(*) as count FROM `Categorie` WHERE `nomCategorie` = :nomCategorie";
+    $params = [':nomCategorie' => $nomCategorie];
+    $result = $this->executeSelect($sql, $params);
+    return $result[0]['count'] > 0;
 }
 }
 ?>

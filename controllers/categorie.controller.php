@@ -1,8 +1,9 @@
 <?php  
 require_once("../model/article.model.php");
 require_once("../model/categorie.model.php");
-require_once("../model/Type.model.php");
+require_once("../model/type.model.php");
 require_once("../core/controller.php");
+
 class CategorieController extends Controller{
     private CategorieModel $categorieModel;
 

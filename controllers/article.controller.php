@@ -1,7 +1,7 @@
 <?php
 require_once("../model/article.model.php");
 require_once("../model/categorie.model.php");
-require_once("../model/Type.model.php");
+require_once("../model/type.model.php");
 require_once("../core/controller.php");
 class ArticleController extends Controller{
     private ArticleModel $articleModel;
@@ -47,8 +47,8 @@ public function listerArticle(): void
 public function chargerFormulaire(): void
 {
         $this->renderView("articles/form", [
-            'categories' =>$this->categorieModel->findAll(),
-            ' $types'=> $types = $this->typeModel->findAll()
+            'categories'=>$this->categorieModel->findAll(),
+            'types'=>$this->typeModel->findAll()
         ], );;  
 }
 
