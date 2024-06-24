@@ -3,16 +3,8 @@ require_once("../core/Model.php");
 class  CategorieModel extends Model{
     public function __construct() {
         $this->ouvrirConnexion();
+        $this->table="categorie";
     }
-
-
-public function findAll(): array
-{
-
-  return  $this->executeSelect("SELECT *
-                FROM Categorie
-                ");
-}
 
 
 public function save(string $nomCategorie): bool {
@@ -20,7 +12,6 @@ public function save(string $nomCategorie): bool {
     $params = [':nomCategorie' => $nomCategorie];
     return $this->executeUpdate($sql, $params);
 }
-
 public function categorieExiste(string $nomCategorie): bool {
     $sql = "SELECT COUNT(*) as count FROM `Categorie` WHERE `nomCategorie` = :nomCategorie";
     $params = [':nomCategorie' => $nomCategorie];

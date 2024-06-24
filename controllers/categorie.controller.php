@@ -41,9 +41,8 @@ public function ajouterCategorie(): void {
         if ($this->categorieModel->categorieExiste($nomCategorie)) {
             echo "La catégorie existe déjà.";
         } else {
-            if ($this->categorieModel->save($nomCategorie)) {
-                header("Location: " . WEBROOT . "?controller=categorie&action=lister-categorie");
-                exit();
+            if ($this->categorieModel->save($nomCategorie)) { 
+                 $this->rendirectToRoute("?controller=article&action=lister-article");
             } else {
                 echo "Erreur lors de l'ajout de la catégorie.";
             }

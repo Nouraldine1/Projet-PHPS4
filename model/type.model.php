@@ -4,11 +4,10 @@ require_once("../core/Model.php");
 class TypeModel extends Model {
     public function __construct() {
         $this->ouvrirConnexion();
+        $this->table="type";
     }
 
-    public function findAll(): array {
-        return $this->executeSelect("SELECT * FROM type");
-    }
+    
 
     public function save(string $nomtype): bool {
         $sql = "INSERT INTO type (nomtype) VALUES (:nomtype)";

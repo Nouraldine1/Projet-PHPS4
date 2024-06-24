@@ -15,5 +15,9 @@ class Controller{
         $contentView=ob_get_clean();
         require_once("../views/layout/$this->layout.layout.php");
 }
+public function rendirectToRoute(string $path){
+    header("Location: " . WEBROOT . "?$path");
+    exit();
+}
 }
 ?>

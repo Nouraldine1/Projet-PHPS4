@@ -9,14 +9,14 @@ class ArticleModel extends Model
     public function __construct()
     {
         $this->ouvrirConnexion();
+        $this->table="article";
     }
 
 
     public function findAll(): array
     {
-
       return  $this->executeSelect("SELECT * 
-                FROM article
+                FROM $this->table
                 INNER JOIN Categorie ON article.categorie_id = Categorie.id
                 INNER JOIN Type ON article.type_id = Type.id
                 ");

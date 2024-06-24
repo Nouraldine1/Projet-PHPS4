@@ -4,6 +4,7 @@ class Model {
     protected $username = 'root';
     protected $password = '';
     protected PDO|null $pdo = null;
+    protected string $table;
  
     public function ouvrirConnexion():void{
         try {
@@ -40,6 +41,11 @@ class Model {
             return [];
         }
     }
+    public function findAll(): array
+{
+  return  $this->executeSelect("SELECT * FROM $this->table");
+}
+
 }
  
 

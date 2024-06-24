@@ -20,8 +20,6 @@ class ArticleController extends Controller{
 public function load() {
     if (isset($_REQUEST['action'])) {
         if ($_REQUEST['action'] == "lister-article") {
-            // unset($_REQUEST['action']);
-            // unset($_REQUEST['controller']);
             $this->listerArticle();
         } elseif ($_REQUEST['action'] == "form-article") {
             $this->chargerFormulaire();
@@ -40,7 +38,7 @@ public function listerArticle(): void
    
    $this->renderView("articles/lister", [
        'articles' => $this->articleModel->findAll(),
-   ],   );; 
+   ],   );
   
 
 }
@@ -87,8 +85,9 @@ public function ajouterArticle(): void {
     $result = $this->articleModel->save($libelle, $prix,  $qteStock, $categorie_id, $type_id);
 
     if ($result) {
-        header("Location: " . WEBROOT . "?action=lister-article");
-        exit();
+        // header("Location: " . WEBROOT . "?controller=article&action=lister-article");
+          $this->rendirectToRoute("?controller=article&action=lister-article");
+        
     } else {
         echo "Erreur lors de l'ajout de l'article.";
     }

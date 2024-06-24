@@ -46,8 +46,7 @@ public function ajoutertype(): void {
             echo "La catégorie existe déjà.";
         } else {
             if ($this->typeModel->save($nomtype)) {
-                header("Location: " . WEBROOT . "?controller=type&action=lister-type");
-                exit();
+                $this->rendirectToRoute("?controller=article&action=lister-article");
             } else {
                 echo "Erreur lors de l'ajout de la catégorie.";
             }
