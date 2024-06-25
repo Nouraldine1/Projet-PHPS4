@@ -12,15 +12,17 @@ class ArticleModel extends Model
         $this->table="article";
     }
 
-
     public function findAll(): array
     {
-      return  $this->executeSelect("SELECT * 
-                FROM $this->table
-                INNER JOIN Categorie ON article.categorie_id = Categorie.id
-                INNER JOIN Type ON article.type_id = Type.id
-                ");
+        return $this->executeSelect(
+            "SELECT a.*, c.nomCategorie, t.nomType
+             FROM article a
+             INNER JOIN Categorie c ON a.categorie_id = c.id
+             INNER JOIN Type t ON a.type_id = t.id"
+        );
     }
+    
+    
 
 
 

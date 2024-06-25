@@ -91,7 +91,7 @@ public function ajouterArticle(): void {
 
     if ($result) {
         // header("Location: " . WEBROOT . "?controller=article&action=lister-article");
-          $this->rendirectToRoute("?controller=article&action=lister-article");
+          $this->redirectToRoute("?controller=article&action=lister-article");
         
     } else {
         echo "Erreur lors de l'ajout de l'article.";

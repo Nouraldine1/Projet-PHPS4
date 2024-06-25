@@ -24,7 +24,7 @@
                             <a href="<?= WEBROOT ?>?controller=article&action=lister-article"
                                 class="px-3 py-2 rounded-md text-sm font-medium text-white bg-gray-900"
                                 aria-current="page">Articles</a>
-                            <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white <?= has_role('Responsable Stock')| has_role('Gestionnaire') ?>">Approvisionnement</a>
+                            <a href="<?= WEBROOT ?>?controller=appro&action=form-appro" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white <?= has_role('Responsable Stock')| has_role('Gestionnaire') ?>">Approvisionnement</a>
                             <a href="<?= WEBROOT ?>?controller=production&action=lister-production"
                                 class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white <?= has_role('Responsable Production')| has_role('Gestionnaire') ?>">Production</a>
                             <a href="<?= WEBROOT ?>?controller=vente&action=lister-vente"

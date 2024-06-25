@@ -17,6 +17,9 @@ class Router {
             } elseif ($_REQUEST['controller'] == "securite") {
                 require_once ("../controllers/securite.controller.php");
                 $controller = new SecuriteController();
+            } elseif ($_REQUEST['controller'] == "appro") {
+                require_once ("../controllers/appro.controller.php");
+                $controller = new ApproController();
             } 
         } else {
             require_once ("../controllers/securite.controller.php");
