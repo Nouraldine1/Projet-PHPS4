@@ -8,6 +8,9 @@ class TypeController extends controller{
     private  array    $datas ;
 
     public function __construct() {
+        if(!Autorisation::isConnect()){
+            $this->redirectToRoute("?controller=securite&action=form-connexion");
+        }
         parent::__construct();
         $this->typeModel = new TypeModel();
         $this->load();
@@ -16,6 +19,8 @@ public function load()
 {
     if (isset($_REQUEST['action'])) {
         if ($_REQUEST['action'] == "lister-type") {
+            unset($_POST['action']);
+            unset($_POST['controller']);
            $this->listertype();
         } elseif ($_REQUEST['action'] == "add-type") {
             $this->ajoutertype();

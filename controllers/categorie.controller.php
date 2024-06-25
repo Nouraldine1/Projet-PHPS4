@@ -8,6 +8,9 @@ class CategorieController extends Controller{
     private CategorieModel $categorieModel;
 
     public function __construct() {
+        if(!Autorisation::isConnect()){
+            $this->redirectToRoute("?controller=securite&action=form-connexion");
+        }
         parent::__construct();
         $this->articleModel = new ArticleModel();
         $this->categorieModel = new CategorieModel();
@@ -18,6 +21,8 @@ public function load() {
 
 if (isset($_REQUEST['action'])) {
     if ($_REQUEST['action'] == "lister-categorie") {
+        unset($_POST['action']);
+        unset($_POST['controller']);
        $this-> listerCategorie();
     } elseif ($_REQUEST['action'] == "add-categorie") {
         $this-> ajouterCategorie();

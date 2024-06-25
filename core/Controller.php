@@ -5,7 +5,7 @@ class Controller{
         Session::ouvrir();
         $this->layout = "base";
     }
-    public function renderView(string $view ,array $data){
+    public function renderView(string $view ,array $data=[]){
         // var_dump( $data);
         ob_start();
         extract($data);
@@ -16,7 +16,7 @@ class Controller{
         $contentView=ob_get_clean();
         require_once("../views/layout/$this->layout.layout.php");
 }
-public function rendirectToRoute(string $path){
+public function redirectToRoute(string $path){
     header("Location: " . WEBROOT . "?$path");
     exit();
 }

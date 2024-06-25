@@ -6,11 +6,15 @@ class  UserModel extends Model{
         $this->table="user";
     }
 
-    public function findByLoginAndPassword( string $login,string $password): array|false
-    {
-      return  $this->executeSelect("SELECT * 
-                FROM $this->table  u,role r where u.role_Id=r.id and u.login like '$login' and u.pawssword like ' $password'");
+    public function findByLoginAndPassword(string $login, string $password): array|false {
+        $stmt = $this->pdo->prepare("SELECT * 
+            FROM $this->table u 
+            JOIN role r ON u.role_Id = r.id 
+            WHERE u.login = :login AND u.password = :password");
+        $stmt->execute(['login' => $login, 'password' => $password]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    
 
 
 }

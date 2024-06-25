@@ -11,6 +11,9 @@ class ArticleController extends Controller{
    
 
     public function __construct() {
+        if(!Autorisation::isConnect()){
+            $this->redirectToRoute("?controller=securite&action=form-connexion");
+        }
         parent::__construct();
         $this->articleModel = new ArticleModel();
         $this->categorieModel = new CategorieModel();
@@ -20,6 +23,8 @@ class ArticleController extends Controller{
 public function load() {
     if (isset($_REQUEST['action'])) {
         if ($_REQUEST['action'] == "lister-article") {
+            unset($_POST['action']);
+            unset($_POST['controller']);
             $this->listerArticle();
         } elseif ($_REQUEST['action'] == "form-article") {
             $this->chargerFormulaire();

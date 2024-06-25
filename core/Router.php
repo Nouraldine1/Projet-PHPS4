@@ -14,13 +14,13 @@ class Router {
             } elseif ($_REQUEST['controller'] == "type") {
                 require_once ("../controllers/type.controller.php");
                 $controller = new TypeController();
-            } else {
-                require_once ("../controllers/article.controller.php");
-                $controller = new ArticleController();
-            }
+            } elseif ($_REQUEST['controller'] == "securite") {
+                require_once ("../controllers/securite.controller.php");
+                $controller = new SecuriteController();
+            } 
         } else {
-            require_once ("../controllers/article.controller.php");
-            $controller = new ArticleController();
+            require_once ("../controllers/securite.controller.php");
+            $controller = new SecuriteController();
         }
     }
    

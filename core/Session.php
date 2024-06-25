@@ -31,6 +31,7 @@ public static function get(string $key) {
 }
 
 public static function fermer(){
+    unset($_SESSION["userConnect"]);
         session_destroy();
 }
 
