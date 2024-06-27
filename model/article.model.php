@@ -61,9 +61,19 @@ class ArticleModel extends Model
             return false;
         }
     }
+
+
+
+// public function findById(int $id): bool
+// {
+//     return $this->executeSelect(
+//         "SELECT  a.* FROM  this->table where id=$id");
+// }
+
+
+
+
 }
-
-
 
 
 

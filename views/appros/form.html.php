@@ -1,11 +1,15 @@
+<?php
+require_once ("../core/Session.php");
+?>
+
 <div class="container mx-auto mt-5">
     <div class="flex justify-center">
         <div class="w-full lg:w-3/4">
             <div class="bg-white shadow-md rounded-md p-6">
                 <h2 class="text-2xl font-bold mb-4 text-center">Approvisionnement</h2>
                 <form method="POST" action="<?= WEBROOT ?>">
-                    <input type="hidden" name="action" value="add-appro">
                     <input type="hidden" name="controller" value="appro">
+                    <input type="hidden" name="action" value="add-article">
                     <div class="mb-4">
                         <label for="fournisseur" class="block text-sm font-medium text-gray-700">Fournisseur</label>
                         <select id="fournisseur" name="fournisseur_Id"
@@ -13,7 +17,9 @@
                             required>
                             <option value="">---</option>
                             <?php foreach ($fournisseurs as $fournisseur): ?>
-                                <option value="<?= $fournisseur['id'] ?>"><?= $fournisseur['nomFour'] ?></option>
+                                <option value="<?= $fournisseur['id'] ?>" <?= (Session::get("panier") && Session::get("panier")->fournisseur == $fournisseur['id']) ? 'selected' : '' ?>>
+                                    <?= $fournisseur['nomFour'] ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -36,7 +42,7 @@
                                 required>
                         </div>
                         <div class="w-1/4 flex items-end">
-                            <button type="button" id="addArticleBtn"
+                            <button type="submit" id="add-article"
                                 class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:bg-green-700">Ajouter</button>
                         </div>
                     </div>
@@ -44,71 +50,49 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead>
                                 <tr>
-                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th
+                                        class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Article
                                     </th>
-                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th
+                                        class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Quantité
                                     </th>
-                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th
+                                        class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Prix
                                     </th>
-                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    <th
+                                        class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Montant
                                     </th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200" id="articles-list">
-                                <!-- Les lignes des articles ajoutés seront insérées ici dynamiquement -->
+                                <?php if (Session::get('panier')): ?>
+                                    <?php foreach (Session::get('panier')->articles as $article): ?>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap"><?= $article['libelle'] ?></td>
+                                            <td class="px-6 py-4 whitespace-nowrap"><?= $article['qteAppro'] ?></td>
+                                            <td class="px-6 py-4 whitespace-nowrap"><?= $article['prixAppro'] ?></td>
+                                            <td class="px-6 py-4 whitespace-nowrap"><?= $article['montantArticle'] ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
-                    <div class="flex justify-between items-center mt-4">
-                        <button type="submit"
-                            class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 focus:outline-none focus:bg-purple-700">Enregistrer</button>
-                        <div class="text-red-600 text-xl font-bold">Total: <span id="total-price">0</span> CFA</div>
-                    </div>
                 </form>
-                <div class="mt-4 flex justify-end">
+                <div class="mt-6 flex justify-between items-center">
+                    <div class="text-red-600 text-xl font-bold">Total: <span id="total-price"><?= Session::get('panier') ? Session::get('panier')->total : 0 ?></span> CFA</div>
+                    <a href="<?= WEBROOT ?>?controller=appro&action=add-appro"
+                        class="bg-purple-600 text-white px-8 py-4 rounded-md text-lg hover:bg-purple-700 focus:outline-none focus:bg-purple-700">Enregistrer</a>
+                </div>
+                <!-- <div class="mt-4 flex justify-end">
                     <a href="<?= WEBROOT ?>?action=Fermer-form"
                         class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none focus:bg-gray-400">Fermer</a>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const articlesList = document.getElementById('articles-list');
-        const totalPriceElement = document.getElementById('total-price');
-        let totalPrice = 0;
-
-        document.getElementById('addArticleBtn').addEventListener('click', function () {
-            const articleSelect = document.getElementById('article_Id');
-            const quantiteInput = document.getElementById('qteAppro');
-            const selectedArticle = articleSelect.options[articleSelect.selectedIndex];
-            const articleId = selectedArticle.value;
-            const articleName = selectedArticle.text;
-            const quantite = parseInt(quantiteInput.value);
-
-            // Replace with actual price logic
-            const prix = 1000;
-            const montant = quantite * prix;
-
-            // Add new row to the table
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${articleName}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${quantite}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${prix}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${montant}</td>
-            `;
-            articlesList.appendChild(newRow);
-
-            // Update total price
-            totalPrice += montant;
-            totalPriceElement.textContent = totalPrice;
-        });
-    });
-</script>

@@ -3,7 +3,7 @@
         <div class="w-full md:w-1/2">
             <div class="bg-white shadow-md rounded-md p-6">
                 <h2 class="text-2xl font-bold mb-4 text-center">Ajouter un nouvel Article</h2>
-                <form method="POST" action="<?= WEBROOT ?>?action=add-article">
+                <form method="POST" action="<?= WEBROOT ?>?action=add-article&controller=article">
                     <div class="mb-4">
                         <label for="libelle" class="block text-sm font-medium text-gray-700">Libellé</label>
                         <input type="text" id="libelle" name="libelle" placeholder="Libellé"

@@ -46,6 +46,19 @@ class Model {
   return  $this->executeSelect("SELECT * FROM $this->table");
 }
 
+public function findById(int $id): array|bool
+{
+    $sql = "SELECT * FROM " . $this->table . " WHERE id = :id";
+    $params = [':id' => $id];
+    $result = $this->executeSelect($sql, $params);
+
+    if ($result === false || count($result) === 0) {
+        return false;
+    }
+
+    return $result[0];
+}
+
 }
  
 
