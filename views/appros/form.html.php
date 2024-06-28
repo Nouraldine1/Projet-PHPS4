@@ -48,6 +48,7 @@ require_once ("../core/Session.php");
                     </div>
                     <div class="mt-6">
                         <table class="min-w-full divide-y divide-gray-200">
+                        <?php if (Session::get('panier')): ?>
                             <thead>
                                 <tr>
                                     <th
@@ -69,7 +70,7 @@ require_once ("../core/Session.php");
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200" id="articles-list">
-                                <?php if (Session::get('panier')): ?>
+                                
                                     <?php foreach (Session::get('panier')->articles as $article): ?>
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap"><?= $article['libelle'] ?></td>
@@ -78,7 +79,7 @@ require_once ("../core/Session.php");
                                             <td class="px-6 py-4 whitespace-nowrap"><?= $article['montantArticle'] ?></td>
                                         </tr>
                                     <?php endforeach; ?>
-                                <?php endif; ?>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -93,6 +94,7 @@ require_once ("../core/Session.php");
                         class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none focus:bg-gray-400">Fermer</a>
                 </div> -->
             </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

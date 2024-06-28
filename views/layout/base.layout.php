@@ -24,38 +24,139 @@
                             <a href="<?= WEBROOT ?>?controller=article&action=lister-article"
                                 class="px-3 py-2 rounded-md text-sm font-medium text-white bg-gray-900"
                                 aria-current="page">Articles</a>
-                            <a href="<?= WEBROOT ?>?controller=appro&action=form-appro" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white <?= has_role('Responsable Stock')| has_role('Gestionnaire') ?>">Approvisionnement</a>
-                            <a href="<?= WEBROOT ?>?controller=production&action=lister-production"
-                                class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white <?= has_role('Responsable Production')| has_role('Gestionnaire') ?>">Production</a>
-                            <a href="<?= WEBROOT ?>?controller=vente&action=lister-vente"
-                                class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white <?= has_role('Vendeur') | has_role('Gestionnaire')?>">Ventes</a>
-                            <a href="<?= WEBROOT ?>?controller=fournisseur&action=lister-fournisseur"
-                                class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white <?= has_role('Gestionnaire') | has_role('Gestionnaire') ?>">Fournisseurs</a>
-                            <a href="<?= WEBROOT ?>?controller=client&action=lister-client"
-                                class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white <?= has_role('Gestionnaire') ?>">Clients</a>
-                            <a href="<?= WEBROOT ?>?controller=user&action=lister-responsable-stock"
-                                class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white <?= has_role('Gestionnaire') ?>">Responsables Stock</a>
-                            <a href="<?= WEBROOT ?>?controller=user&action=lister-responsable-production"
-                                class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white <?= has_role('Gestionnaire') ?>">Responsables Production</a>
-                            <a href="<?= WEBROOT ?>?controller=user&action=lister-vendeur"
-                                class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white <?= has_role('Gestionnaire') ?>">Vendeurs</a>
-                            <?php if (Autorisation::hasRole('Gestionnaire')): ?>
-                            <div class="relative inline-block text-left" x-data="{ open: false }">
-                                <div>
-                                    <button @click="open = !open" type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-800 px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                                        Paramétrage
-                                        <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                </div>
-                                <div x-show="open" @click.outside="open = false" class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                                    <div class="py-1" role="none">
-                                        <a href="<?= WEBROOT ?>?controller=categorie&action=lister-categorie" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">Catégories</a>
-                                        <a href="<?= WEBROOT ?>?controller=type&action=lister-type" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-1">Types</a>
+                            <a href="<?= WEBROOT ?>?controller=production&action=lister-production" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white <?php if (has_role('RP') | has_role('Gestionnaire'))
+                                  echo 'visible';
+                              else
+                                  echo 'hidden'; ?>">Production</a>
+                            <a href="<?= WEBROOT ?>?controller=vente&action=lister-vente" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white <?php if (has_role('Vendeur') | has_role('Gestionnaire'))
+                                  echo 'visible';
+                              else
+                                  echo 'hidden'; ?>">Ventes</a>
+                            <!-- Approvisionnement -->
+                            <?php if (Autorisation::hasRole('Gestionnaire') | Autorisation::hasRole('RS')): ?>
+                                <div class="relative inline-block text-left" x-data="{ open: false }">
+                                    <div>
+                                        <button @click="open = !open" type="button"
+                                            class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-800 px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                                            id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                            Approvisionnement
+                                            <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
+                                                aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div x-show="open" @click.outside="open = false"
+                                        class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                        role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                        <div class="py-1" role="none">
+                                            <a href="<?= WEBROOT ?>?controller=appro&action=lister-appro"
+                                                class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                                                id="menu-item-0">Liste</a>
+                                            <a href="<?= WEBROOT ?>?controller=appro&action=form-appro"
+                                                class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                                                id="menu-item-1">Faire appro</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            <?php endif; ?>
+                            <!-- Clients et Fournisseurs -->
+                            <?php if (Autorisation::hasRole('Gestionnaire')): ?>
+                                <div class="relative inline-block text-left" x-data="{ open: false }">
+                                    <div>
+                                        <button @click="open = !open" type="button"
+                                            class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-800 px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                                            id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                            Clients & Fournisseurs
+                                            <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
+                                                aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div x-show="open" @click.outside="open = false"
+                                        class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                        role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                        <div class="py-1" role="none">
+                                            <a href="<?= WEBROOT ?>?controller=client&action=lister-client"
+                                                class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                                                id="menu-item-0">Clients</a>
+                                            <a href="<?= WEBROOT ?>?controller=fournisseur&action=lister-fournisseur"
+                                                class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                                                id="menu-item-1">Fournisseurs</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                            <!-- Utilisateurs -->
+                            <?php if (Autorisation::hasRole('Gestionnaire')): ?>
+                                <div class="relative inline-block text-left" x-data="{ open: false }">
+                                    <div>
+                                        <button @click="open = !open" type="button"
+                                            class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-800 px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                                            id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                            Utilisateurs
+                                            <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
+                                                aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div x-show="open" @click.outside="open = false"
+                                        class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                        role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                        <div class="py-1" role="none">
+                                            <a href="<?= WEBROOT ?>?controller=user&action=lister-user"
+                                                class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                                                id="menu-item-1">Liste</a>
+                                            <a href="<?= WEBROOT ?>?controller=user&action=lister-responsable-stock"
+                                                class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                                                id="menu-item-1">Responsables Stock</a>
+                                            <a href="<?= WEBROOT ?>?controller=user&action=lister-responsable-production"
+                                                class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                                                id="menu-item-2">Responsables Production</a>
+                                            <a href="<?= WEBROOT ?>?controller=user&action=lister-vendeur"
+                                                class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                                                id="menu-item-3">Vendeurs</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                            <!-- Paramétrage -->
+                            <?php if (Autorisation::hasRole('Gestionnaire')): ?>
+                                <div class="relative inline-block text-left" x-data="{ open: false }">
+                                    <div>
+                                        <button @click="open = !open" type="button"
+                                            class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-gray-800 px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                                            id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                            Paramétrage
+                                            <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
+                                                aria-hidden="true">
+                                                <path fill-rule="evenodd"
+                                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div x-show="open" @click.outside="open = false"
+                                        class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                                        role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                        <div class="py-1" role="none">
+                                            <a href="<?= WEBROOT ?>?controller=categorie&action=lister-categorie"
+                                                class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                                                id="menu-item-0">Catégories</a>
+                                            <a href="<?= WEBROOT ?>?controller=type&action=lister-type"
+                                                class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                                                id="menu-item-1">Types</a>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -76,20 +177,23 @@
                         <div x-show="open" @click.outside="open = false"
                             class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5"
                             role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                            <?php if (Session::get('userConnect')): 
+                            <?php if (Session::get('userConnect')):
                                 $user = Session::get('userConnect');
-                            ?>
-                            <span class="block px-4 py-2 text-sm text-gray-700"><?= htmlspecialchars($user['nomComplet']) ?> (<?= htmlspecialchars($user['name']) ?>)</span>
-                            <a href="<?= WEBROOT ?>?controller=securite&action=logout"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
-                                tabindex="-1" id="user-menu-item-0">Déconnexion</a>
+                                ?>
+                                <span
+                                    class="block px-4 py-2 text-sm text-green-700"><?= htmlspecialchars($user['nomComplet']) ?>
+                                    (<?= htmlspecialchars($user['name']) ?>)</span>
                             <?php else: ?>
-                            <a href="<?= WEBROOT ?>?controller=securite&action=form-connexion"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
-                                tabindex="-1" id="user-menu-item-1">Connexion</a>
+                                <a href="<?= WEBROOT ?>?controller=securite&action=form-connexion"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
+                                    tabindex="-1" id="user-menu-item-1">Connexion</a>
                             <?php endif; ?>
                         </div>
+
                     </div>
+                    <a href="<?= WEBROOT ?>?controller=securite&action=logout"
+                        class="block px-4 py-2 text-sm text-red-700 hover:bg-gray-100" role="menuitem" tabindex="-1"
+                        id="user-menu-item-0">Déconnexion</a>
                 </div>
             </div>
         </div>

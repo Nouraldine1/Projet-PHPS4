@@ -4,7 +4,7 @@ require_once("../core/Model.php");
 class ApproModel extends Model {
     public function __construct() {
         $this->ouvrirConnexion();
-        $this->table="type";
+        $this->table="appro";
     }
 
     
@@ -105,5 +105,56 @@ class ApproModel extends Model {
         $result = $this->executeSelect($sql, $params);
         return $result[0]['count'] > 0;
     }
+    
+    public function findAll(): array {
+        $query = "SELECT a.*, u.nomComplet as user_nom, f.nomFour as fournisseur_nom 
+                  FROM $this->table a
+                  LEFT JOIN user u ON a.user_Id = u.id
+                  LEFT JOIN fournisseur f ON a.fournisseur_Id = f.id";
+        
+        return $this->executeSelect($query);
+    }
+    
+
+//     public function Filter($date, $fournisseur): array {
+//         $sql = "SELECT appro.date, appro.montant, fournisseur.nomFour AS fournisseur_nom, user.nomComplet AS user_nom 
+//                 FROM appro
+//                 LEFT JOIN fournisseur ON appro.fournisseur_Id = fournisseur.id
+//                 LEFT JOIN user ON appro.user_Id = user.id
+//                 WHERE 1 = 1";
+
+//         $params = [];
+//         if ($date) {
+//             $sql .= " AND appro.date = :date";
+//             $params[':date'] = $date;
+//         }
+//         if ($fournisseur) {
+//             $sql .= " AND fournisseur.nomFour LIKE :fournisseur";
+//             $params[':fournisseur'] = '%' . $fournisseur . '%';
+//         }
+
+//         return $this->executeSelect($sql, $params);
+//     }
+
+public function Filter($date, $fournisseur): array {
+    $sql = "SELECT appro.id, appro.date, appro.montant, fournisseur.id AS fournisseur_id, fournisseur.nomFour AS fournisseur_nom, user.id AS user_id, user.nomComplet AS user_nom 
+            FROM appro
+            LEFT JOIN fournisseur ON appro.fournisseur_Id = fournisseur.id
+            LEFT JOIN user ON appro.user_Id = user.id
+            WHERE 1 = 1";
+
+    $params = [];
+    if ($date) {
+        $sql .= " AND appro.date = :date";
+        $params[':date'] = $date;
+    }
+    if ($fournisseur) {
+        $sql .= " AND fournisseur.nomFour LIKE :fournisseur";
+        $params[':fournisseur'] = '%' . $fournisseur . '%';
+    }
+
+    return $this->executeSelect($sql, $params);
+}
+
 }
 ?>

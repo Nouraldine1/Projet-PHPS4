@@ -34,28 +34,66 @@ public function load() {
             $this-> ajouterArticleDansAppro($_POST);
         }elseif ($_REQUEST['action'] == "add-appro") {
             $this-> ajouterAppro();
+        }elseif ($_REQUEST['action'] == "filtrer-appro") {
+            $this->FilterAppro();
+        }elseif ($_REQUEST['action'] == "show-appro-details") {
+            $approId = $_GET['id'];
+            $this->showApproDetails($approId);
         }
+        
     } else { 
         $this->listerAppro();
     } 
 }
+public function showApproDetails():void {
+    $this->renderView("appros/lister", [
+        "appros" => $this->approModel->findAll(),
+        "fournisseurs" =>$this->fournisseurModel->findAll()
+    ]);
 
-public function listerAppro(): void
-{
-   
-   $this->renderView("appros/lister", [
-       'articles' => $this->articleModel,
-   ],   );
-  
-
+    
+      
 }
+
+public function listerAppro():void {
+    $this->renderView("appros/lister", [
+        "appros" => $this->approModel->findAll(),
+        "fournisseurs" =>$this->fournisseurModel->findAll()
+    ]);
+
+    
+      
+}
+
+public function FilterAppro(): void {
+    $date = $_POST['date'] ?? '';
+    $fournisseur = $_POST['fournisseur'] ?? 'All';
+
+    if ($fournisseur == 'All') {
+        $this->renderView("appros/lister", [
+            "appros" => $this->approModel->findAll(),
+            "fournisseurs" => $this->fournisseurModel->findAll()
+        ]);
+    } else {
+        $this->renderView("appros/lister", [
+            "appros" => $this->approModel->Filter($date, $fournisseur),
+            "fournisseurs" => $this->fournisseurModel->findAll()
+        ]);
+    }
+}
+
+
+
+
+
+
 public function chargerFormulaire(): void
 {
         $this->renderView("appros/form", [
             'fournisseurs'=>$this->fournisseurModel->findAll(),
             'articles'=>$this->articleModel->findAll(),
 
-        ], );;  
+        ], );
 }
 
 
@@ -81,6 +119,8 @@ public function ajouterArticleDansAppro(array $data): void {
     
 // }
 
+
+
 public function ajouterAppro(): void {
     $panier = Session::get("panier");
     if ($panier) {
@@ -91,4 +131,8 @@ public function ajouterAppro(): void {
         } 
 }
 }
+
+
+
+
 }
